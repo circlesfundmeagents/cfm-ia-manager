@@ -24,7 +24,7 @@ export function AuthProvider({ children }) {
       setLoadingOfficer(true)
       const { data, error } = await supabase
         .from('officers')
-        .select('*, teams(name), branches(name)')
+        .select('*')
         .eq('id', session.user.id)
         .single()
       if (!cancelled) {
