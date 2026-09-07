@@ -25,9 +25,10 @@ const NAV_BY_ROLE = {
     { to: '/', label: 'National Dashboard', end: true },
     { to: '/leaderboard', label: 'Leaderboard' },
   ],
-  head_office_admin: [
+    head_office_admin: [
     { to: '/', label: 'Dashboard', end: true },
     { to: '/approvals', label: 'Approvals' },
+    { to: '/officers', label: 'Manage Officers' },
     { to: '/leaderboard', label: 'Leaderboard' },
   ],
 }
