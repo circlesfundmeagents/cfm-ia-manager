@@ -10,6 +10,8 @@ import Leaderboard from './pages/po/Leaderboard'
 import Performance from './pages/po/Performance'
 import HODashboard from './pages/ho/Dashboard'
 import HOApprovals from './pages/ho/Approvals'
+import ManageOfficers from './pages/ho/ManageOfficers'
+import FinancialProducts from './pages/ho/FinancialProducts'
 
 export default function App() {
   const { session, officer, loading } = useAuth()
@@ -29,6 +31,8 @@ export default function App() {
         <Route path="/leaderboard" element={<Leaderboard />} />
         <Route path="/performance" element={<Performance />} />
         {isHO && <Route path="/approvals" element={<HOApprovals />} />}
+        {isHO && <Route path="/officers" element={<ManageOfficers />} />}
+        {isHO && <Route path="/financial-products" element={<FinancialProducts />} />}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
     </Routes>

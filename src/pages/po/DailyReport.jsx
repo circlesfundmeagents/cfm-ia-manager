@@ -5,7 +5,7 @@ import { useAuth } from '../../context/AuthContext'
 const FOLLOW_UP_OUTCOMES = ['interested', 'registered', 'callback_requested', 'declined']
 const AT_RISK_REASONS = ['slow_business', 'family_emergency', 'forgot', 'atm_issue', 'payment_failed', 'other']
 
-const emptyNewMember = { name: '', phone: '', location: '', plan: 'daily', registration_date: today() }
+const emptyNewMember = { name: '', phone: '', location: '', plan: 'daily', financial_product_id: '', registration_date: today() }
 const emptyFollowUp = { member_id: '', outcome: FOLLOW_UP_OUTCOMES[0] }
 const emptyAtRisk = { member_id: '', reason: AT_RISK_REASONS[0] }
 const emptyRecovery = { member_id: '', reason: '', action_taken: '', expected_next_contribution_date: '' }
@@ -15,6 +15,7 @@ function today() { return new Date().toISOString().slice(0, 10) }
 export default function DailyReport() {
   const { officer } = useAuth()
   const [members, setMembers] = useState([])
+  const [financialProducts, setFinancialProducts] = useState([])
   const [newMembers, setNewMembers] = useState([])
   const [followUps, setFollowUps] = useState([])
   const [atRiskVisits, setAtRiskVisits] = useState([])
@@ -26,6 +27,8 @@ export default function DailyReport() {
   useEffect(() => {
     supabase.from('members').select('id, full_name').eq('is_archived', false)
       .then(({ data }) => setMembers(data ?? []))
+    supabase.from('financial_products').select('id, name').eq('active', true).order('name')
+      .then(({ data }) => setFinancialProducts(data ?? []))
   }, [])
 
   async function handleSubmit(e) {
@@ -65,6 +68,10 @@ export default function DailyReport() {
                 onChange={(e) => updateAt(newMembers, setNewMembers, i, { location: e.target.value })} />
               <select value={row.plan} onChange={(e) => updateAt(newMembers, setNewMembers, i, { plan: e.target.value })}>
                 <option value="daily">Daily</option><option value="weekly">Weekly</option><option value="monthly">Monthly</option>
+              </select>
+              <select value={row.financial_product_id} onChange={(e) => updateAt(newMembers, setNewMembers, i, { financial_product_id: e.target.value })}>
+                <option value="">Contribution scheme…</option>
+                {financialProducts.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
               </select>
             </RowGrid>
           ))}

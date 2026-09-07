@@ -28,6 +28,8 @@ const NAV_BY_ROLE = {
   head_office_admin: [
     { to: '/', label: 'Dashboard', end: true },
     { to: '/approvals', label: 'Approvals' },
+    { to: '/officers', label: 'Manage Officers' },
+    { to: '/financial-products', label: 'Financial Products' },
     { to: '/leaderboard', label: 'Leaderboard' },
   ],
 }
